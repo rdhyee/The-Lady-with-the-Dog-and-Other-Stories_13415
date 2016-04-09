@@ -1,0 +1,45 @@
+_repo: The-Lady-with-the-Dog-and-Other-Stories_13415
+_version: 0.0.1
+contributor:
+  translator:
+    agent_name: Garnett, Constance
+    alias: Black, Constance Clara
+    birthdate: 1861
+    deathdate: 1946
+    gutenberg_agent_id: '2858'
+    url: http://www.gutenberg.org/2009/agents/2858
+    wikipedia:
+    - http://www.womenofbrighton.co.uk/constanceblackgarnett.htm
+    - http://en.wikipedia.org/wiki/Constance_Garnett
+creator:
+  author:
+    agent_name: Chekhov, Anton Pavlovich
+    aliases:
+    - Chekov, Anton Pavlovich
+    - Чехов, Антон Павлович
+    - Tshehov, Anton
+    - Tchekhov, Anton
+    birthdate: 1860
+    deathdate: 1904
+    gutenberg_agent_id: '708'
+    url: http://www.gutenberg.org/2009/agents/708
+    wikipedia: http://en.wikipedia.org/wiki/Anton_Chekhov
+description: ''
+gutenberg_issued: '2004-09-09'
+gutenberg_type: Text
+identifiers:
+  gutenberg: '13415'
+language: en
+publisher: Project Gutenberg
+rights: Public domain in the USA.
+rights_url: http://creativecommons.org/about/pdm
+subjects:
+- !lcsh 'Chekhov, Anton Pavlovich, 1860-1904 -- Translations into English'
+- !lcc 'PG'
+- !lcsh 'Russia -- Social life and customs -- Fiction'
+- GITenberg
+tableOfContents: The Lady With The Dog -- A Doctor's Visit -- An Upheaval -- Ionitch
+  -- The Head Of The Family -- The Black Monk -- Volodya -- An Anonymous Story --
+  The Husband.
+title: The Lady with the Dog and Other Stories
+url: http://www.gutenberg.org/ebooks/13415
