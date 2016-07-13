@@ -3,33 +3,23 @@ dist: trusty
 language: ruby
 
 before_install:
-- gem install asciidoctor -v 1.5.2 
+before_install:
+- gem install asciidoctor -v 1.5.2
 - gem install tilt
-- sudo pip install git+https://github.com/rdhyee/ebooklib.git
+- sudo pip install git+https://github.com/rdhyee/gitberg.git
+- sudo pip install pillow
+- sudo pip install cssutils
+- sudo pip install docutils
+- sudo pip install roman
+- sudo pip install git+git://github.com/rdhyee/pg-epubmaker.git
 script:
 - VERSION=`ruby -e "require 'yaml'; meta = YAML.load_file('metadata.yaml'); puts meta['_version'];"`
 - git clone https://github.com/gitenberg-dev/asciidoctor-htmlbook.git
-
 - sudo pip install -r asciidoctor-htmlbook/gitberg-machine/requirements.txt
-- asciidoctor -a toc,idprefix=xx_,version=$VERSION -b xhtml5 -T ./asciidoctor-htmlbook/htmlbook-autogen/
-  -d book book.asciidoc -o book.html
-- git clone https://github.com/gitenberg-dev/HTMLBook
 
-# make book.html available to jinja2 environment by putting it into templates
-- cp book.html asciidoctor-htmlbook/gitberg-machine/templates/
-
-- /usr/bin/python asciidoctor-htmlbook/gitberg-machine/machine.py -o . -m metadata.yaml book.html
-- xsltproc -stringparam external.assets.list " " ./HTMLBook/htmlbook-xsl/epub.xsl book.html
-- cp ./HTMLBook/stylesheets/epub/epub.css OEBPS
-- if [ -e cover.jpg ]; then cp cover.jpg OEBPS/cover.jpg; fi
-# look for first images directory and one found, copy over to ./OEBPS
-- find . -name images -type d | head -n 1 | xargs -I {} mv {} ./OEBPS/
-- zip -rX book.epub mimetype
-- zip -rX book.epub OEBPS/ META-INF/
-- if test -d "OEBPS/images/"; then zip -rX book.epub OEBPS/images/ ;fi
-- mv book.epub The-Lady-with-the-Dog-and-Other-Stories.epub
-- ebook-convert The-Lady-with-the-Dog-and-Other-Stories.epub The-Lady-with-the-Dog-and-Other-Stories.mobi
-- xvfb-run ebook-convert The-Lady-with-the-Dog-and-Other-Stories.epub The-Lady-with-the-Dog-and-Other-Stories.pdf
+- /usr/bin/python -c "from gitenberg import travis; travis.build_epub()"
+- ebook-convert book.epub book.mobi
+- xvfb-run ebook-convert book.epub book.pdf
 branches:
   only:
   - master
@@ -46,14 +36,26 @@ deploy:
   api_key:
     secure: hLmIQlJEr1yyCzBkpjH623nkC40q+9pjyha61w31j+P6KLq3tVZLDxbmeTwxnDgTSGwP/+D/Js7R+RRZhA9QNPZCOtSGXzslMt4VhfGxR+aukq7tBQFbW1zaM0cXEj8NpTAuTf1miEwgmxQ7TEOZqyXWnJMDYfu/MDeOjtMhWo8UhEQiQsrDldYCn/m2NrhEA7Z+xvXa4AvgCixb4m2OWaCnQNtMv62fDI1H8tnQr8KKz+s1XXjonXsjGQaZwa6ar7IWY66LFs32hVtgXQObenkkDLE5kWg6QckTgHSL4eacMmU84Fz5RkkRKSJEglTq5rBV+fUCXe2wk/gedQIn8VP6uZniipE1+CiyIYwRz+9QVpPy5/8xEfL6Z3KqcgJkpSzjCW+Y1kqD7Z1D6SnRKGGr3j6GW9f4CpKcpKw+kA/opS5W8VbOvtQyHQ0Z5ThNPaKuUBT9pE7ueq8xC2T2R7VDmSXt7Sh2gvr8zx0XstFbDLQO+0+DikrcpIzhHdrHWqL2OI6802sY0q4rEAmO/xUknsk6+Elm+0JpbGSgar3oAU1Uo74J0qippvI9y/cpI/3KMHOJyQR40/5Pdhv/5OkMR5plTWfg+KRfCgvTac/SfexEud0PqqaOP/Ht3BSFm3cxhfjSY1hMfZtE/MVLfF2+z1DI2rPczX+zCOPahg8=
   file:
-    - The-Lady-with-the-Dog-and-Other-Stories.epub
-    - The-Lady-with-the-Dog-and-Other-Stories.mobi
-    - The-Lady-with-the-Dog-and-Other-Stories.pdf
+    - book.epub
+    - book.mobi
+    - book.pdf
   "on":
-    repo: GITenberg/The-Lady-with-the-Dog-and-Other-Stories_13415
+    repo: rdhyee/The-Lady-with-the-Dog-and-Other-Stories_13415
 addons:
   apt:
     packages:
     - xsltproc
     - xvfb
     - calibre
+    - python-pip
+    - git
+    - python-dev
+    - libjpeg-dev
+    - libpng-dev
+    - libfreetype6
+    - libfreetype6-dev
+    - zlib1g-dev
+    - python-lxml
+    - libxml2-dev
+    - libxslt1-dev
+    - tidy
